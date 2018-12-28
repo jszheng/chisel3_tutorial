@@ -1,8 +1,6 @@
-// See LICENSE for license details.
-
-package gcd
-
 import chisel3._
+import chisel3.util._
+import chisel3.iotesters.{ChiselFlatSpec, Driver, PeekPokeTester}
 
 /**
   * This provides an alternate way to run tests, by executing then as a main
