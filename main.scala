@@ -2,7 +2,7 @@ import chisel3._
 import chisel3.util._
 import chisel3.iotesters.{ChiselFlatSpec, Driver, PeekPokeTester}
 
-object GCDGen {
+object main_gen {
   // Convenience function to invoke Chisel and grab emitted Verilog.
   def getVerilog(dut: => chisel3.core.UserModule): String = {
     import firrtl._
@@ -76,7 +76,28 @@ object GCDGen {
   }
 
   def main(args: Array[String]): Unit = {
-    println(getVerilog(new GCD))
+    chisel3.Driver.execute(Array[String](), () => new Accumulator())
+    chisel3.Driver.execute(Array[String](), () => new Adder(12))
+    chisel3.Driver.execute(Array[String](), () => new Counter())
+    chisel3.Driver.execute(Array[String](), () => new DynamicMemorySearch(10, 8))
+    chisel3.Driver.execute(Array[String](), () => new Max2())
+    chisel3.Driver.execute(Array[String](), () => new MaxN(10, 8))
+    chisel3.Driver.execute(Array[String](), () => new Memo())
+    chisel3.Driver.execute(Array[String](), () => new Mul())
+    chisel3.Driver.execute(Array[String](), () => new Mux4())
+    chisel3.Driver.execute(Array[String](), () => new RealGCD())
+    chisel3.Driver.execute(Array[String](), () => new VecShiftRegister())
+    chisel3.Driver.execute(Array[String](), () => new VecShiftRegisterParam(10, 8))
+    chisel3.Driver.execute(Array[String](), () => new VecShiftRegisterSimple())
+    chisel3.Driver.execute(Array[String](), () => new VendingMachine())
+    chisel3.Driver.execute(Array[String](), () => new VendingMachineSwitch())
+    chisel3.Driver.execute(Array[String](), () => new MyOperators())
+    chisel3.Driver.execute(Array[String](), () => new LastConnect())
+    chisel3.Driver.execute(Array[String](), () => new Max3())
+    chisel3.Driver.execute(Array[String](), () => new Sort4())
     chisel3.Driver.execute(Array[String](), () => new GCD())
+    chisel3.Driver.execute(Array[String](), () => new LFSR16())
+    //println(getVerilog(new GCD))
+
   }
 }
