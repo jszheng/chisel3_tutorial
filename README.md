@@ -1,90 +1,30 @@
-Chisel Project Template
-=======================
+# Introduction
+CHISEL 基于Scala Embedded Language, 属于internal DSL。直接写scala，调用chisel内置的库构造出硬件结构，然后产生出C和verilog代码，同时也提供testbench用于快速验证。
 
-You've done the chisel [tutorials](https://github.com/ucb-bar/chisel-tutorial.git), and now you 
-are ready to start your own chisel project.  The following procedure should get you started
-with a clean running [Chisel3](https://github.com/ucb-bar/chisel3.git) project.
+在RISC-V Rocket Core项目中实际上使用了chisel3, 他实际上是将chisel分解为两部分，构造出了一个IR层，后端是firrtl, 是一个简化版的硬件描述语言，属于external DSL, 用ANTLR编写。他们希望在此之上发展出各种灵活的前端，也许不拘泥于scala语言。
+Chisel3现在是两部分，CORE用于描述硬件，tester是做验证的
 
-## Make your own Chisel3 project
-### How to get started
-The first thing you want to do is clone this repo into a directory of your own.  I'd recommend creating a chisel projects directory somewhere
-```sh
-mkdir ~/ChiselProjects
-cd ~/ChiselProjects
+firrtl也添加了一个interpreter包用于高层仿真而不依赖于仿真器。
 
-git clone https://github.com/ucb-bar/chisel-template.git MyChiselProject
-cd MyChiselProject
-```
-### Make your project into a fresh git repo
-There may be more elegant way to do it, but the following works for me. **Note:** this project comes with a magnificent 339 line (at this writing) .gitignore file.
- You may want to edit that first in case we missed something, whack away at it, or start it from scratch.
- 
-#### Clear out the old git stuff 
-```sh
-rm -rf .git
-git init
-git add .gitignore *
-```
+整个软件包也支持吐出verilog给verilator或VCS仿真。
 
-#### Rename project in build.sbt file
-Use your favorite text editor to change the first line of the **build.sbt** file
-(it ships as ```name := "chisel-module-template"```) to correspond 
-to your project.<br/>
-Perhaps as ```name := "my-chisel-project"```
+## 问题
+* 最大的问题应该是产生的rtl有很多temp signal，跟原来的描述要对应比较困难
+* interface的定义也不够有层次
 
-#### Clean up the README.md file
-Again use you editor of choice to make the README specific to your project
+# Learn
 
-#### Commit your changes
-```
-git commit -m 'Starting MyChiselProject'
-```
-Connecting this up to github or some other remote host is an exercise left to the reader.
+最好的方法是自己动手写些文件看产生的rtl是什么样子。
+* [Tutorial](./chisel/tutorial.md)
+* [IDEA usage](./chisel/IDEA.md)
 
-### Did it work?
-You should now have a project based on Chisel3 that can be run.<br/>
-So go for it, at the command line in the project root.
-```sh
-sbt 'testOnly gcd.GCDTester -- -z Basic'
-```
->This tells the test harness to only run the test in GCDTester that contains the word Basic
-There are a number of other examples of ways to run tests in there, but we just want to see that
-one works.
 
-You should see a whole bunch of output that ends with something like the following lines
-```
-[info] [0.001] SEED 1506028591907
-test GCD Success: 168 tests passed in 1107 cycles taking 0.203969 seconds
-[info] [0.191] RAN 1102 CYCLES PASSED[info] GCDTester:
-[info] GCD
-[info] GCD
-[info] Basic test using Driver.execute
-[info] - should be an alternative way to run specification
-[info] using --backend-name verilator
-[info] running with --is-verbose creats a lot
-[info] using --help
-[info] ScalaTest
-[info] Run completed in 1 second, 642 milliseconds.
-[info] Total number of tests run: 1
-[info] Suites: completed 1, aborted 0
-[info] Tests: succeeded 1, failed 0, canceled 0, ignored 0, pending 0
-[info] All tests passed.
-[info] Passed: Total 1, Failed 0, Errors 0, Passed 1
-[success] Total time: 2 s, completed Sep 21, 2017 9:12:47 PM
-```
-If you see the above then...
-### It worked!
-You are ready to go. We have a few recommended practices and things to do.
-* Use packages and following conventions for [structure](http://www.scala-sbt.org/0.13/docs/Directories.html) and [naming](http://docs.scala-lang.org/style/naming-conventions.html)
-* Package names should be clearly reflected in the testing hierarchy
-* Build tests for all your work.
- * This template includes a dependency on the Chisel3 IOTesters, this is a reasonable starting point for most tests
- * You can remove this dependency in the build.sbt file if necessary
-* Change the name of your project in the build.sbt
-* Change your README.md
 
-## Development/Bug Fixes
-This is the release version of chisel-template. If you have bug fixes or
-changes you would like to see incorporated in this repo, please checkout
-the master branch and submit pull requests against it.
+# Links
+
+* [官网](https://chisel.eecs.berkeley.edu/)
+* [基于Jupyter的教程](https://github.com/freechipsproject/chisel-bootcamp.git)
+* [Chisel3 wiki](https://github.com/freechipsproject/chisel3/wiki)
+* [最新chiesel 文档](https://chisel.eecs.berkeley.edu/api/latest/index.html)
+* [cs250: VLSI Systems Design](http://inst.eecs.berkeley.edu/~cs250)
 
